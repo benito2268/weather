@@ -15,13 +15,13 @@ namespace weather {
 
         std::string line;
         std::size_t numLines;
-        Day** arr;
+        Day* arr;
 
         //count the number of lines in the file
         numLines = std::count(std::istreambuf_iterator<char>(inFile),
                    std::istreambuf_iterator<char>(), '\n'); 
 
-        arr = new Day*[numLines];
+        arr = new Day[numLines];
 
         //equivalent to rewind() in c
         inFile.clear();
@@ -31,7 +31,7 @@ namespace weather {
         while(std::getline(inFile, line)) {
             //split the string
             std::vector<std::string> vec = split(line, ',');
-            arr[i] = new Day(vec[0],
+            arr[i] = Day(vec[0],
                         std::stoi(vec[1]), //temp_max
                         std::stoi(vec[2]), //temp_min
                         std::stod(vec[3]), //temp_avg
@@ -44,11 +44,7 @@ namespace weather {
         }
 
         inFile.close();
-        DaySpan span = DaySpan(arr, numLines*sizeof(Day*), numLines);
-        
-        for(int k = 0; k < numLines; k++) {
-            delete arr[k];
-        }
+        DaySpan span = DaySpan(arr, numLines*sizeof(Day), numLines);
         delete[] arr;
 
         return span;

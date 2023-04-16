@@ -19,12 +19,12 @@ namespace weather {
     };
 
     struct DaySpan {
-        Day** ptr = nullptr;
+        Day* ptr = nullptr;
         std::size_t size;
         int count; //number of days
 
         //constructor to construct from another day object
-        DaySpan(Day** days, size_t size, int count);
+        DaySpan(Day* days, size_t size, int count);
         DaySpan(DaySpan ds, int r_first, int r_last);
         DaySpan(); // constructs and empty span
         ~DaySpan();

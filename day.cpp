@@ -23,8 +23,9 @@ namespace weather {
         
     }
 
-    DaySpan::DaySpan(Day** days, size_t size, int count) {
-        this->ptr = days;
+    DaySpan::DaySpan(Day* days, size_t size, int count) {
+        this->ptr = new Day[count];
+        std::memcpy(this->ptr, days, size);
         this->size = size;
         this->count = count;
     }
@@ -36,9 +37,6 @@ namespace weather {
     }
 
     DaySpan::~DaySpan() {
-        for(int k = 0; k < this->size; k++) {
-            delete this->ptr[k];
-        }
         delete[] this->ptr;
     }
 
@@ -52,7 +50,7 @@ namespace weather {
     //should probably be a better algorithm
     std::optional<int> DaySpan::indexOf(std::string date) {
         for(int i = 0; i < this->count; i++) {
-            if(this->ptr[i]->date == date) {
+            if(this->ptr[i].date == date) {
                 return i;
             }
         }
